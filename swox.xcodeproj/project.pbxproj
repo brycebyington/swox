@@ -19,13 +19,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		026C39B02DC863DF00733A6E /* slox */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = slox; sourceTree = BUILT_PRODUCTS_DIR; };
+		026C39B02DC863DF00733A6E /* swox */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = swox; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		026C39B22DC863DF00733A6E /* slox */ = {
+		026C39B22DC863DF00733A6E /* swox */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = slox;
+			path = swox;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -44,7 +44,7 @@
 		026C39A72DC863DF00733A6E = {
 			isa = PBXGroup;
 			children = (
-				026C39B22DC863DF00733A6E /* slox */,
+				026C39B22DC863DF00733A6E /* swox */,
 				026C39B12DC863DF00733A6E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -52,7 +52,7 @@
 		026C39B12DC863DF00733A6E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				026C39B02DC863DF00733A6E /* slox */,
+				026C39B02DC863DF00733A6E /* swox */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -60,9 +60,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		026C39AF2DC863DF00733A6E /* slox */ = {
+		026C39AF2DC863DF00733A6E /* swox */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 026C39B72DC863DF00733A6E /* Build configuration list for PBXNativeTarget "slox" */;
+			buildConfigurationList = 026C39B72DC863DF00733A6E /* Build configuration list for PBXNativeTarget "swox" */;
 			buildPhases = (
 				026C39AC2DC863DF00733A6E /* Sources */,
 				026C39AD2DC863DF00733A6E /* Frameworks */,
@@ -73,13 +73,13 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				026C39B22DC863DF00733A6E /* slox */,
+				026C39B22DC863DF00733A6E /* swox */,
 			);
-			name = slox;
+			name = swox;
 			packageProductDependencies = (
 			);
 			productName = slox;
-			productReference = 026C39B02DC863DF00733A6E /* slox */;
+			productReference = 026C39B02DC863DF00733A6E /* swox */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -97,7 +97,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 026C39AB2DC863DF00733A6E /* Build configuration list for PBXProject "slox" */;
+			buildConfigurationList = 026C39AB2DC863DF00733A6E /* Build configuration list for PBXProject "swox" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -111,7 +111,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				026C39AF2DC863DF00733A6E /* slox */,
+				026C39AF2DC863DF00733A6E /* swox */,
 			);
 		};
 /* End PBXProject section */
@@ -270,7 +270,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		026C39AB2DC863DF00733A6E /* Build configuration list for PBXProject "slox" */ = {
+		026C39AB2DC863DF00733A6E /* Build configuration list for PBXProject "swox" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				026C39B52DC863DF00733A6E /* Debug */,
@@ -279,7 +279,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		026C39B72DC863DF00733A6E /* Build configuration list for PBXNativeTarget "slox" */ = {
+		026C39B72DC863DF00733A6E /* Build configuration list for PBXNativeTarget "swox" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				026C39B82DC863DF00733A6E /* Debug */,
