@@ -89,9 +89,57 @@ class Scanner {
             } else {
                 addToken(type: TokenType.GREATER)
             }
+        case "/":
+            if match(expected: "/") {
+                /// A comment goes until the end of the line
+                while peek() != "\n", !isAtEnd() {
+                    _ = advance()
+                }
+            } else {
+                addToken(type: TokenType.SLASH)
+            }
+        case " ", "\r", "\t":
+            /// Ignore whitespace
+            break
+        case "\n":
+            line += 1
+        case "\"":
+            string()
         default:
             Lox.error(line: line, message: "Unexpected character")
         }
+    }
+    
+    /// Consume characters until ending double quote
+    private func string() {
+        while peek() != "\"", !isAtEnd() {
+            if peek() == "\n" {
+                line += 1
+            }
+            _ = advance()
+        }
+        
+        if isAtEnd() {
+            Lox.error(line: line, message: "Unterminated string")
+            return
+        }
+        
+        /// The closing `"`
+        _ = advance()
+        
+        /// Trim the surrounding quotes
+        let fromIndex = start + 1
+        let toIndex = current - 1
+        
+        /// Strip the surrounding quotes to produce the string literal
+        let value: String = source.subString(from: fromIndex, to: toIndex)
+        addToken(type: TokenType.STRING, literal: value)
+    }
+    
+    /// Lookahead function that does not consume a character
+    private func peek() -> Character {
+        if isAtEnd() { return "\0" }
+        return source.charAt(at: current)
     }
     
     /// Only consume the current character if a match is found
