@@ -33,6 +33,25 @@ class Scanner {
         self.source = source
     }
     
+    private static let keywords: [String: TokenType] = [
+        "and": TokenType.AND,
+        "class": TokenType.CLASS,
+        "else": TokenType.ELSE,
+        "false": TokenType.FALSE,
+        "for": TokenType.FOR,
+        "fun": TokenType.FUN,
+        "if": TokenType.IF,
+        "nil": TokenType.NIL,
+        "or": TokenType.OR,
+        "print": TokenType.PRINT,
+        "return": TokenType.RETURN,
+        "super": TokenType.SUPER,
+        "this": TokenType.THIS,
+        "true": TokenType.TRUE,
+        "var": TokenType.VAR,
+        "while": TokenType.WHILE
+    ]
+    
     /// To-do: Add variables and function declarations
     func scanTokens() -> [Token] {
         while !isAtEnd() {
@@ -105,9 +124,68 @@ class Scanner {
             line += 1
         case "\"":
             string()
+        case _ where isDigit(c: c):
+            number()
+        case _ where isAlpha(c: c):
+            identifier()
         default:
             Lox.error(line: line, message: "Unexpected character")
         }
+    }
+    
+    /// Determine identifiers
+    private func identifier() {
+        while isAlphaNumeric(c: peek()) {
+            _ = advance()
+        }
+        
+        let text = source.subString(from: start, to: current)
+        var type = Scanner.keywords[text]
+        /// After scanning an identifer, check for matches in `keywords`
+        if type == nil {
+            /// If no matches are found, the token is an `IDENTIFIER`
+            type = TokenType.IDENTIFIER
+        }
+        
+        addToken(type: type!)
+    }
+    
+    /// Return true if character is a letter A-z
+    private func isAlpha(c: Character) -> Bool {
+        return (c >= "a" && c <= "z") || (c >= "A" && c <= "Z") || c == "_"
+    }
+    
+    /// Return true if character is a letter or number
+    private func isAlphaNumeric(c: Character) -> Bool {
+        return isAlpha(c: c) || isDigit(c: c)
+    }
+    
+    /// Consume entire digit literal including fractional part
+    private func number() {
+        while isDigit(c: peek()) {
+            _ = advance()
+        }
+        
+        if peek() == ".", isDigit(c: peekNext()) {
+            _ = advance()
+            
+            while isDigit(c: peek()) {
+                _ = advance()
+            }
+        }
+        
+        addToken(type: TokenType.NUMBER, literal: Double(source.subString(from: start, to: current)))
+    }
+    
+    /// Look past the decimal point (two characters ahead)
+    private func peekNext() -> Character {
+        if current + 1 >= source.count { return "\0" }
+        return source.charAt(at: current + 1)
+    }
+    
+    /// Return true if the character is a digit 0-9
+    private func isDigit(c: Character) -> Bool {
+        return c >= "0" && c <= "9"
     }
     
     /// Consume characters until ending double quote
