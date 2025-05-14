@@ -18,6 +18,15 @@ extension String {
         let endIndex = index(self.startIndex, offsetBy: to)
         return String(self[startIndex ..< endIndex])
     }
+
+    func split(splitter: String) -> [String] {
+        return components(separatedBy: splitter)
+    }
+
+    /// Returns  a new string without whitespaces
+    func trim() -> String {
+        return trimmingCharacters(in: .whitespacesAndNewlines)
+    }
 }
 
 class Scanner {
@@ -52,7 +61,6 @@ class Scanner {
         "while": TokenType.WHILE
     ]
     
-    /// To-do: Add variables and function declarations
     func scanTokens() -> [Token] {
         while !isAtEnd() {
             /// We are at the beginning of the next lexeme

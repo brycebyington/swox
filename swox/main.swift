@@ -70,5 +70,8 @@ public class Lox {
     }
 }
 
+/// Test function
+AstPrinter.testAstPrinter(args: [])
+
 /// Main loop
 Lox.main(args: [])
