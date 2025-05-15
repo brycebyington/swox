@@ -43,22 +43,22 @@ class Scanner {
     }
     
     private static let keywords: [String: TokenType] = [
-        "and": TokenType.AND,
-        "class": TokenType.CLASS,
-        "else": TokenType.ELSE,
-        "false": TokenType.FALSE,
-        "for": TokenType.FOR,
-        "fun": TokenType.FUN,
-        "if": TokenType.IF,
-        "nil": TokenType.NIL,
-        "or": TokenType.OR,
-        "print": TokenType.PRINT,
-        "return": TokenType.RETURN,
-        "super": TokenType.SUPER,
-        "this": TokenType.THIS,
-        "true": TokenType.TRUE,
-        "var": TokenType.VAR,
-        "while": TokenType.WHILE
+        "and": .AND,
+        "class": .CLASS,
+        "else": .ELSE,
+        "false": .FALSE,
+        "for": .FOR,
+        "fun": .FUN,
+        "if": .IF,
+        "nil": .NIL,
+        "or": .OR,
+        "print": .PRINT,
+        "return": .RETURN,
+        "super": .SUPER,
+        "this": .THIS,
+        "true": .TRUE,
+        "var": .VAR,
+        "while": .WHILE
     ]
     
     func scanTokens() -> [Token] {
@@ -68,7 +68,7 @@ class Scanner {
             scanToken()
         }
         
-        tokens.append(Token(type: TokenType.EOF, lexeme: "", literal: nil, line: line))
+        tokens.append(Token(type: .EOF, lexeme: "", literal: nil, line: line))
         return tokens
     }
     
@@ -77,44 +77,44 @@ class Scanner {
         let c: Character = advance()
         switch c {
         case "(":
-            addToken(type: TokenType.LEFT_PAREN)
+            addToken(type: .LEFT_PAREN)
         case ")":
-            addToken(type: TokenType.RIGHT_PAREN)
+            addToken(type: .RIGHT_PAREN)
         case "{":
-            addToken(type: TokenType.LEFT_BRACE)
+            addToken(type: .LEFT_BRACE)
         case "}":
-            addToken(type: TokenType.RIGHT_BRACE)
+            addToken(type: .RIGHT_BRACE)
         case ",":
-            addToken(type: TokenType.COMMA)
+            addToken(type: .COMMA)
         case ".":
-            addToken(type: TokenType.DOT)
+            addToken(type: .DOT)
         case "-":
-            addToken(type: TokenType.MINUS)
+            addToken(type: .MINUS)
         case "+":
-            addToken(type: TokenType.PLUS)
+            addToken(type: .PLUS)
         case ";":
-            addToken(type: TokenType.SEMICOLON)
+            addToken(type: .SEMICOLON)
         case "*":
-            addToken(type: TokenType.STAR)
+            addToken(type: .STAR)
         case "!":
             match(expected: "=") ?
-                addToken(type: TokenType.BANG_EQUAL) :
-                addToken(type: TokenType.BANG)
+                addToken(type: .BANG_EQUAL) :
+                addToken(type: .BANG)
         case "=":
             match(expected: "=") ?
-                addToken(type: TokenType.EQUAL_EQUAL) :
-                addToken(type: TokenType.EQUAL)
+                addToken(type: .EQUAL_EQUAL) :
+                addToken(type: .EQUAL)
         case "<":
             if match(expected: "=") {
-                addToken(type: TokenType.LESS_EQUAL)
+                addToken(type: .LESS_EQUAL)
             } else {
-                addToken(type: TokenType.LESS)
+                addToken(type: .LESS)
             }
         case ">":
             if match(expected: "=") {
-                addToken(type: TokenType.GREATER_EQUAL)
+                addToken(type: .GREATER_EQUAL)
             } else {
-                addToken(type: TokenType.GREATER)
+                addToken(type: .GREATER)
             }
         case "/":
             if match(expected: "/") {
@@ -123,7 +123,7 @@ class Scanner {
                     _ = advance()
                 }
             } else {
-                addToken(type: TokenType.SLASH)
+                addToken(type: .SLASH)
             }
         case " ", "\r", "\t":
             /// Ignore whitespace
@@ -152,7 +152,7 @@ class Scanner {
         /// After scanning an identifer, check for matches in `keywords`
         if type == nil {
             /// If no matches are found, the token is an `IDENTIFIER`
-            type = TokenType.IDENTIFIER
+            type = .IDENTIFIER
         }
         
         addToken(type: type!)
@@ -182,7 +182,7 @@ class Scanner {
             }
         }
         
-        addToken(type: TokenType.NUMBER, literal: Double(source.subString(from: start, to: current)))
+        addToken(type: .NUMBER, literal: Double(source.subString(from: start, to: current)))
     }
     
     /// Look past the decimal point (two characters ahead)
@@ -219,7 +219,7 @@ class Scanner {
         
         /// Strip the surrounding quotes to produce the string literal
         let value: String = source.subString(from: fromIndex, to: toIndex)
-        addToken(type: TokenType.STRING, literal: value)
+        addToken(type: .STRING, literal: value)
     }
     
     /// Lookahead function that does not consume a character

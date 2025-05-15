@@ -95,9 +95,9 @@ class AstPrinter: Visitor {
     /// Test function
     public static func testAstPrinter(args: [String]) {
         let expression = Binary(
-            left: Unary(_operator: Token(type: TokenType.MINUS, lexeme: "-", literal: nil, line: 1),
+            left: Unary(_operator: Token(type: .MINUS, lexeme: "-", literal: nil, line: 1),
                         right: Literal(value: 123)),
-            _operator: Token(type: TokenType.STAR, lexeme: "*", literal: nil, line: 1),
+            _operator: Token(type: .STAR, lexeme: "*", literal: nil, line: 1),
             right: _Grouping(expression: Literal(value: 45.67)))
         print(AstPrinter().printTree(expr: expression))
     }
