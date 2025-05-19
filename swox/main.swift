@@ -52,8 +52,14 @@ public class Lox {
     /// Core
     private static func run(source: String) {
         let scanner = Scanner(source: source)
-        /// To-do: Implement Token class and scanTokens() function.
         let tokens: [Token] = scanner.scanTokens()
+        
+        let parser = Parser(tokens: tokens)
+        let expression = parser.parse()
+        
+        if hadError { return }
+        
+        print(AstPrinter().printTree(expr: expression!))
         
         for token in tokens {
             print(token)
@@ -67,6 +73,15 @@ public class Lox {
     static func report(line: Int, where: String, message: String) {
         print("[line \(line)] Error: \(`where`): \(message)")
         hadError = true
+    }
+    
+    /// Reports an error at a given token with its location
+    static func error(token: Token, message: String) {
+        if token.type == .EOF {
+            report(line: token.line, where: " at end", message: message)
+        } else {
+            report(line: token.line, where: " at '\(token.lexeme)'", message: message)
+        }
     }
 }
 
