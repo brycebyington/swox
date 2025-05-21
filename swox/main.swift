@@ -10,7 +10,10 @@ import Foundation
 var args = CommandLine.arguments
 
 public class Lox {
+    private static var interpreter: Interpreter = .init()
+    
     static var hadError: Bool = false
+    static var hadRuntimeError: Bool = false
     
     public static func main(args: [String]) {
         if args.count > 1 {
@@ -30,9 +33,8 @@ public class Lox {
         run(source: String(bytes: bytes, encoding: .utf8)!)
         
         /// Indicate an error in the exit code
-        if hadError {
-            exit(65)
-        }
+        if hadError { exit(65) }
+        if hadRuntimeError { exit(70) }
     }
     
     /// Execute code from command line interpreter
@@ -59,11 +61,14 @@ public class Lox {
         
         if hadError { return }
         
-        print(AstPrinter().printTree(expr: expression!))
+        interpreter.interpret(expression!)
         
-        for token in tokens {
+        // print(AstPrinter().printTree(expr: expression!))
+        
+        /*
+         for token in tokens {
             print(token)
-        }
+        }*/
     }
     
     static func error(line: Int, message: String) {
@@ -83,10 +88,16 @@ public class Lox {
             report(line: token.line, where: " at '\(token.lexeme)'", message: message)
         }
     }
+    
+    /// Reports an error thrown by`interpret()`, which catches `RuntimeError`.
+    static func runtimeError(error: RuntimeError) {
+        print("\(error.message)\n[line \(error.token.line)] ")
+        hadRuntimeError = true
+    }
 }
 
 /// Test function
-AstPrinter.testAstPrinter(args: [])
+// AstPrinter.testAstPrinter(args: [])
 
 /// Main loop
 Lox.main(args: [])

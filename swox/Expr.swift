@@ -9,7 +9,7 @@
 /// to Swift proved to be tedious enough that writing `Expr` manually was faster.
 
 class Expr {
-    func accept<V: Visitor>(_ visitor: V) -> V.Return {
+    func accept<V: Visitor>(_ visitor: V) throws -> V.Return {
         fatalError("Error: Function must be overridden by subclass.")
     }
 }
@@ -17,11 +17,11 @@ class Expr {
 protocol Visitor {
     associatedtype Return
     func visitAssignExpr(_ expr: Assign) -> Return
-    func visitBinaryExpr(_ expr: Binary) -> Return
+    func visitBinaryExpr(_ expr: Binary) throws -> Return
     func visitCallExpr(_ expr: Call) -> Return
     func visitGetExpr(_ expr: Get) -> Return
     func visitGroupingExpr(_ expr: _Grouping) -> Return
-    func visitLiteralExpr(_ expr: Literal) -> Return
+    func visitLiteralExpr(_ expr: Literal) throws -> Return
     func visitLogicalExpr(_ expr: Logical) -> Return
     func visitSetExpr(_ expr: _Set) -> Return
     func visitSuperExpr(_ expr: Super) -> Return
@@ -38,8 +38,8 @@ final class Assign: Expr {
         self.name = name; self.value = value
     }
 
-    override func accept<V: Visitor>(_ visitor: V) -> V.Return {
-        visitor.visitAssignExpr(self)
+    override func accept<V: Visitor>(_ visitor: V) throws -> V.Return {
+        return visitor.visitAssignExpr(self)
     }
 }
 
@@ -52,8 +52,8 @@ final class Binary: Expr {
         self.left = left; self._operator = _operator; self.right = right
     }
 
-    override func accept<V: Visitor>(_ visitor: V) -> V.Return {
-        visitor.visitBinaryExpr(self)
+    override func accept<V: Visitor>(_ visitor: V) throws -> V.Return {
+        return try visitor.visitBinaryExpr(self)
     }
 }
 
@@ -66,8 +66,8 @@ final class Call: Expr {
         self.callee = callee; self.paren = paren; self.arguments = arguments
     }
 
-    override func accept<V: Visitor>(_ visitor: V) -> V.Return {
-        visitor.visitCallExpr(self)
+    override func accept<V: Visitor>(_ visitor: V) throws -> V.Return {
+        return visitor.visitCallExpr(self)
     }
 }
 
@@ -79,8 +79,8 @@ final class Get: Expr {
         self.object = object; self.name = name
     }
 
-    override func accept<V: Visitor>(_ visitor: V) -> V.Return {
-        visitor.visitGetExpr(self)
+    override func accept<V: Visitor>(_ visitor: V) throws -> V.Return {
+        return visitor.visitGetExpr(self)
     }
 }
 
@@ -91,8 +91,8 @@ final class _Grouping: Expr {
         self.expression = expression
     }
 
-    override func accept<V: Visitor>(_ visitor: V) -> V.Return {
-        visitor.visitGroupingExpr(self)
+    override func accept<V: Visitor>(_ visitor: V) throws -> V.Return {
+        return visitor.visitGroupingExpr(self)
     }
 }
 
@@ -103,8 +103,8 @@ final class Literal: Expr {
         self.value = value
     }
 
-    override func accept<V: Visitor>(_ visitor: V) -> V.Return {
-        visitor.visitLiteralExpr(self)
+    override func accept<V: Visitor>(_ visitor: V) throws -> V.Return {
+        return try visitor.visitLiteralExpr(self)
     }
 }
 
@@ -119,8 +119,8 @@ final class Logical: Expr {
         self.right = right
     }
 
-    override func accept<V: Visitor>(_ visitor: V) -> V.Return {
-        visitor.visitLogicalExpr(self)
+    override func accept<V: Visitor>(_ visitor: V) throws -> V.Return {
+        return visitor.visitLogicalExpr(self)
     }
 }
 
@@ -135,8 +135,8 @@ final class _Set: Expr {
         self.value = value
     }
 
-    override func accept<V: Visitor>(_ visitor: V) -> V.Return {
-        visitor.visitSetExpr(self)
+    override func accept<V: Visitor>(_ visitor: V) throws -> V.Return {
+        return visitor.visitSetExpr(self)
     }
 }
 
@@ -149,8 +149,8 @@ final class Super: Expr {
         self.method = method
     }
 
-    override func accept<V: Visitor>(_ visitor: V) -> V.Return {
-        visitor.visitSuperExpr(self)
+    override func accept<V: Visitor>(_ visitor: V) throws -> V.Return {
+        return visitor.visitSuperExpr(self)
     }
 }
 
@@ -161,8 +161,8 @@ final class This: Expr {
         self.keyword = keyword
     }
 
-    override func accept<V: Visitor>(_ visitor: V) -> V.Return {
-        visitor.visitThisExpr(self)
+    override func accept<V: Visitor>(_ visitor: V) throws -> V.Return {
+        return visitor.visitThisExpr(self)
     }
 }
 
@@ -175,8 +175,8 @@ final class Unary: Expr {
         self.right = right
     }
 
-    override func accept<V: Visitor>(_ visitor: V) -> V.Return {
-        visitor.visitUnaryExpr(self)
+    override func accept<V: Visitor>(_ visitor: V) throws -> V.Return {
+        return visitor.visitUnaryExpr(self)
     }
 }
 
@@ -187,7 +187,7 @@ final class _Variable: Expr {
         self.name = name
     }
 
-    override func accept<V: Visitor>(_ visitor: V) -> V.Return {
-        visitor.visitVariableExpr(self)
+    override func accept<V: Visitor>(_ visitor: V) throws -> V.Return {
+        return visitor.visitVariableExpr(self)
     }
 }

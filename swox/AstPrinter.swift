@@ -29,7 +29,7 @@ extension Array {
 class AstPrinter: Visitor {
     typealias Return = String
     func printTree(expr: Expr) -> String {
-        return expr.accept(self)
+        return try! expr.accept(self)
     }
     
     func visitAssignExpr(_ expr: Assign) -> String {
@@ -86,7 +86,7 @@ class AstPrinter: Visitor {
     private func parenthesize(name: String, exprs: Expr...) -> String {
         var result = "(\(name)"
         for expr in exprs {
-            result += " " + expr.accept(self)
+            result += " " + (try! expr.accept(self))
         }
         result += ")"
         return result
